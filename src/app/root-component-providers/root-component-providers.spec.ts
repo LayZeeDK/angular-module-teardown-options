@@ -716,7 +716,7 @@ describe('Root component with component-level service', () => {
     describe('ComponentFixture#destroy + TestBed.resetTestingModule', () => {
       beforeEach(() => {
         TestBed.configureTestingModule({
-          declarations: [TestAppComponent],
+          imports: [TestAppModule],
           teardown: { destroyAfterEach },
         });
 
@@ -724,34 +724,84 @@ describe('Root component with component-level service', () => {
       });
 
       afterAll(() => {
-        expect(TestAppComponent.destroyCount).toBe(testCases);
-        expect(TestComponentService.destroyCount).toBe(0);
+        expect(TestAppComponent.initializeCount).toBe(n);
+        expect(TestAppComponent.destroyCount).toBe(n);
+
+        expect(TestComponentService.initializeCount).toBe(n);
+        expect(TestComponentService.destroyCount).toBe(n);
+
+        expect(TestAppModule.initializeCount).toBe(n);
+        expect(TestAppModule.destroyCount).toBe(0);
+
+        expect(TestRootService.initializeCount).toBe(n);
+        expect(TestRootService.destroyCount).toBe(0);
       });
 
-      const { TestAppComponent, TestComponentService } =
-        createDecoratedClasses();
+      const {
+        TestAppComponent,
+        TestAppModule,
+        TestComponentService,
+        TestEmptyAppComponent,
+        TestRootService,
+      } = createDecoratedClasses();
       let fixture: ComponentFixture<unknown>;
-      const testCases = 9;
+      const n = 16;
 
-      Array(testCases - 1)
+      Array(n / 4)
         .fill(undefined)
         .forEach((_, index) => {
-          it(`destroys the root component n times #${index + 1}`, () => {
+          it(`destroys the root component once, n times in total #${
+            index + 1
+          }`, () => {
+            fixture.destroy();
+            TestBed.resetTestingModule();
             fixture.destroy();
             TestBed.resetTestingModule();
 
-            expect(TestAppComponent.destroyCount).toBeLessThanOrEqual(
-              2 * testCases - 1
-            );
+            expect(TestAppComponent.destroyCount).toBeLessThanOrEqual(n);
           });
         });
 
-      it('never destroys a component-level service', () => {
-        fixture.destroy();
-        TestBed.resetTestingModule();
+      Array(n / 4)
+        .fill(undefined)
+        .forEach((_, index) => {
+          it(`destroys a component-level service once, n times in total #${
+            index + 1
+          }`, () => {
+            fixture.destroy();
+            TestBed.resetTestingModule();
+            fixture.destroy();
+            TestBed.resetTestingModule();
 
-        expect(TestComponentService.destroyCount).toBe(0);
-      });
+            expect(TestComponentService.destroyCount).toBeLessThanOrEqual(n);
+          });
+        });
+
+      Array(n / 4)
+        .fill(undefined)
+        .forEach((_, index) => {
+          it(`never destroys the root module #${index + 1}`, () => {
+            fixture.destroy();
+            TestBed.resetTestingModule();
+            fixture.destroy();
+            TestBed.resetTestingModule();
+
+            expect(TestAppModule.destroyCount).toBe(0);
+          });
+        });
+
+      Array(n / 4)
+        .fill(undefined)
+        .forEach((_, index) => {
+          it(`never destroys a root-level service #${index + 1}`, () => {
+            fixture.destroy();
+            TestBed.resetTestingModule();
+            fixture.destroy();
+            TestBed.resetTestingModule();
+
+            expect(TestRootService.destroyCount).toBe(0);
+          });
+        });
     });
   });
 
