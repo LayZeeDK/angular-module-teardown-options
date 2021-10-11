@@ -3,6 +3,22 @@ import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/
 
 function createDecoratedClasses() {
   @Injectable({
+    providedIn: 'platform',
+  })
+  class TestPlatformService implements OnDestroy {
+    static destroyCount = 0;
+    static initializeCount = 0;
+
+    constructor() {
+      TestPlatformService.initializeCount += 1;
+    }
+
+    ngOnDestroy(): void {
+      TestPlatformService.destroyCount += 1;
+    }
+  }
+
+  @Injectable({
     providedIn: 'root',
   })
   class TestRootService implements OnDestroy {
@@ -42,6 +58,7 @@ function createDecoratedClasses() {
     static initializeCount = 0;
 
     constructor(
+      platformService: TestPlatformService,
       rootService: TestRootService,
       componentService: TestComponentService
     ) {}
@@ -83,6 +100,7 @@ function createDecoratedClasses() {
     TestAppModule,
     TestComponentService,
     TestEmptyAppComponent,
+    TestPlatformService,
     TestRootService,
   };
 }
@@ -113,6 +131,9 @@ describe('Root component with component-level service', () => {
 
         expect(TestRootService.initializeCount).toBe(n);
         expect(TestRootService.destroyCount).toBe(0);
+
+        expect(TestPlatformService.initializeCount).toBe(1);
+        expect(TestPlatformService.destroyCount).toBe(0);
       });
 
       const {
@@ -120,6 +141,7 @@ describe('Root component with component-level service', () => {
         TestAppModule,
         TestComponentService,
         TestEmptyAppComponent,
+        TestPlatformService,
         TestRootService,
       } = createDecoratedClasses();
       let fixture: ComponentFixture<unknown>;
@@ -202,6 +224,9 @@ describe('Root component with component-level service', () => {
 
         expect(TestRootService.initializeCount).toBe(n);
         expect(TestRootService.destroyCount).toBe(0);
+
+        expect(TestPlatformService.initializeCount).toBe(1);
+        expect(TestPlatformService.destroyCount).toBe(0);
       });
 
       const {
@@ -209,6 +234,7 @@ describe('Root component with component-level service', () => {
         TestAppModule,
         TestComponentService,
         TestEmptyAppComponent,
+        TestPlatformService,
         TestRootService,
       } = createDecoratedClasses();
       let fixture: ComponentFixture<unknown>;
@@ -291,6 +317,9 @@ describe('Root component with component-level service', () => {
 
         expect(TestRootService.initializeCount).toBe(n);
         expect(TestRootService.destroyCount).toBe(0);
+
+        expect(TestPlatformService.initializeCount).toBe(1);
+        expect(TestPlatformService.destroyCount).toBe(0);
       });
 
       const {
@@ -298,6 +327,7 @@ describe('Root component with component-level service', () => {
         TestAppModule,
         TestComponentService,
         TestEmptyAppComponent,
+        TestPlatformService,
         TestRootService,
       } = createDecoratedClasses();
       let fixture: ComponentFixture<unknown>;
@@ -382,6 +412,9 @@ describe('Root component with component-level service', () => {
 
         expect(TestRootService.initializeCount).toBe(n);
         expect(TestRootService.destroyCount).toBe(0);
+
+        expect(TestPlatformService.initializeCount).toBe(1);
+        expect(TestPlatformService.destroyCount).toBe(0);
       });
 
       const {
@@ -389,6 +422,7 @@ describe('Root component with component-level service', () => {
         TestAppModule,
         TestComponentService,
         TestEmptyAppComponent,
+        TestPlatformService,
         TestRootService,
       } = createDecoratedClasses();
       let fixture: ComponentFixture<unknown>;
@@ -455,6 +489,9 @@ describe('Root component with component-level service', () => {
 
         expect(TestRootService.initializeCount).toBe(n);
         expect(TestRootService.destroyCount).toBe(0);
+
+        expect(TestPlatformService.initializeCount).toBe(1);
+        expect(TestPlatformService.destroyCount).toBe(0);
       });
 
       const {
@@ -462,6 +499,7 @@ describe('Root component with component-level service', () => {
         TestAppModule,
         TestComponentService,
         TestEmptyAppComponent,
+        TestPlatformService,
         TestRootService,
       } = createDecoratedClasses();
       let fixture: ComponentFixture<unknown>;
@@ -552,6 +590,9 @@ describe('Root component with component-level service', () => {
 
         expect(TestRootService.initializeCount).toBe(n);
         expect(TestRootService.destroyCount).toBe(0);
+
+        expect(TestPlatformService.initializeCount).toBe(1);
+        expect(TestPlatformService.destroyCount).toBe(0);
       });
 
       const {
@@ -559,6 +600,7 @@ describe('Root component with component-level service', () => {
         TestAppModule,
         TestComponentService,
         TestEmptyAppComponent,
+        TestPlatformService,
         TestRootService,
       } = createDecoratedClasses();
       let fixture: ComponentFixture<unknown>;
@@ -649,6 +691,9 @@ describe('Root component with component-level service', () => {
 
         expect(TestRootService.initializeCount).toBe(n);
         expect(TestRootService.destroyCount).toBe(0);
+
+        expect(TestPlatformService.initializeCount).toBe(1);
+        expect(TestPlatformService.destroyCount).toBe(0);
       });
 
       const {
@@ -656,6 +701,7 @@ describe('Root component with component-level service', () => {
         TestAppModule,
         TestComponentService,
         TestEmptyAppComponent,
+        TestPlatformService,
         TestRootService,
       } = createDecoratedClasses();
       let fixture: ComponentFixture<unknown>;
@@ -754,6 +800,9 @@ describe('Root component with component-level service', () => {
 
         expect(TestRootService.initializeCount).toBe(n);
         expect(TestRootService.destroyCount).toBe(0);
+
+        expect(TestPlatformService.initializeCount).toBe(1);
+        expect(TestPlatformService.destroyCount).toBe(0);
       });
 
       const {
@@ -761,6 +810,7 @@ describe('Root component with component-level service', () => {
         TestAppModule,
         TestComponentService,
         TestEmptyAppComponent,
+        TestPlatformService,
         TestRootService,
       } = createDecoratedClasses();
       let fixture: ComponentFixture<unknown>;
@@ -855,6 +905,9 @@ describe('Root component with component-level service', () => {
 
         expect(TestRootService.initializeCount).toBe(n);
         expect(TestRootService.destroyCount).toBe(n);
+
+        expect(TestPlatformService.initializeCount).toBe(1);
+        expect(TestPlatformService.destroyCount).toBe(0);
       });
 
       const {
@@ -862,6 +915,7 @@ describe('Root component with component-level service', () => {
         TestAppModule,
         TestComponentService,
         TestEmptyAppComponent,
+        TestPlatformService,
         TestRootService,
       } = createDecoratedClasses();
       let fixture: ComponentFixture<unknown>;
@@ -954,6 +1008,9 @@ describe('Root component with component-level service', () => {
 
         expect(TestRootService.initializeCount).toBe(n);
         expect(TestRootService.destroyCount).toBe(n);
+
+        expect(TestPlatformService.initializeCount).toBe(1);
+        expect(TestPlatformService.destroyCount).toBe(0);
       });
 
       const {
@@ -961,6 +1018,7 @@ describe('Root component with component-level service', () => {
         TestAppModule,
         TestComponentService,
         TestEmptyAppComponent,
+        TestPlatformService,
         TestRootService,
       } = createDecoratedClasses();
       let fixture: ComponentFixture<unknown>;
@@ -1051,6 +1109,9 @@ describe('Root component with component-level service', () => {
 
         expect(TestRootService.initializeCount).toBe(n);
         expect(TestRootService.destroyCount).toBe(n);
+
+        expect(TestPlatformService.initializeCount).toBe(1);
+        expect(TestPlatformService.destroyCount).toBe(0);
       });
 
       const {
@@ -1058,6 +1119,7 @@ describe('Root component with component-level service', () => {
         TestAppModule,
         TestComponentService,
         TestEmptyAppComponent,
+        TestPlatformService,
         TestRootService,
       } = createDecoratedClasses();
       let fixture: ComponentFixture<unknown>;
@@ -1150,6 +1212,9 @@ describe('Root component with component-level service', () => {
 
         expect(TestRootService.initializeCount).toBe(n);
         expect(TestRootService.destroyCount).toBe(n);
+
+        expect(TestPlatformService.initializeCount).toBe(1);
+        expect(TestPlatformService.destroyCount).toBe(0);
       });
 
       const {
@@ -1157,6 +1222,7 @@ describe('Root component with component-level service', () => {
         TestAppModule,
         TestComponentService,
         TestEmptyAppComponent,
+        TestPlatformService,
         TestRootService,
       } = createDecoratedClasses();
       let fixture: ComponentFixture<unknown>;
@@ -1223,6 +1289,9 @@ describe('Root component with component-level service', () => {
 
         expect(TestRootService.initializeCount).toBe(n);
         expect(TestRootService.destroyCount).toBe(n);
+
+        expect(TestPlatformService.initializeCount).toBe(1);
+        expect(TestPlatformService.destroyCount).toBe(0);
       });
 
       const {
@@ -1230,6 +1299,7 @@ describe('Root component with component-level service', () => {
         TestAppModule,
         TestComponentService,
         TestEmptyAppComponent,
+        TestPlatformService,
         TestRootService,
       } = createDecoratedClasses();
       let fixture: ComponentFixture<unknown>;
@@ -1330,6 +1400,9 @@ describe('Root component with component-level service', () => {
 
         expect(TestRootService.initializeCount).toBe(n);
         expect(TestRootService.destroyCount).toBe(n);
+
+        expect(TestPlatformService.initializeCount).toBe(1);
+        expect(TestPlatformService.destroyCount).toBe(0);
       });
 
       const {
@@ -1337,6 +1410,7 @@ describe('Root component with component-level service', () => {
         TestAppModule,
         TestComponentService,
         TestEmptyAppComponent,
+        TestPlatformService,
         TestRootService,
       } = createDecoratedClasses();
       let fixture: ComponentFixture<unknown>;
@@ -1437,6 +1511,9 @@ describe('Root component with component-level service', () => {
 
         expect(TestRootService.initializeCount).toBe(n);
         expect(TestRootService.destroyCount).toBe(n);
+
+        expect(TestPlatformService.initializeCount).toBe(1);
+        expect(TestPlatformService.destroyCount).toBe(0);
       });
 
       const {
@@ -1444,6 +1521,7 @@ describe('Root component with component-level service', () => {
         TestAppModule,
         TestComponentService,
         TestEmptyAppComponent,
+        TestPlatformService,
         TestRootService,
       } = createDecoratedClasses();
       let fixture: ComponentFixture<unknown>;
@@ -1552,6 +1630,9 @@ describe('Root component with component-level service', () => {
 
         expect(TestRootService.initializeCount).toBe(n);
         expect(TestRootService.destroyCount).toBe(n);
+
+        expect(TestPlatformService.initializeCount).toBe(1);
+        expect(TestPlatformService.destroyCount).toBe(0);
       });
 
       const {
@@ -1559,6 +1640,7 @@ describe('Root component with component-level service', () => {
         TestAppModule,
         TestComponentService,
         TestEmptyAppComponent,
+        TestPlatformService,
         TestRootService,
       } = createDecoratedClasses();
       let fixture: ComponentFixture<unknown>;
