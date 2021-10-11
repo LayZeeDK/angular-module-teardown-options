@@ -925,10 +925,10 @@ describe('Root component with component-level service', () => {
         expect(TestComponentService.destroyCount).toBe(n);
 
         expect(TestAppModule.initializeCount).toBe(n);
-        expect(TestAppModule.destroyCount).toBe(0);
+        expect(TestAppModule.destroyCount).toBe(n);
 
         expect(TestRootService.initializeCount).toBe(n);
-        expect(TestRootService.destroyCount).toBe(0);
+        expect(TestRootService.destroyCount).toBe(n);
       });
 
       const {
@@ -948,6 +948,7 @@ describe('Root component with component-level service', () => {
             index + 1
           }`, () => {
             const destroyCount = TestAppComponent.destroyCount;
+
             fixture.destroy();
             fixture.destroy();
 
@@ -963,6 +964,7 @@ describe('Root component with component-level service', () => {
             index + 1
           }`, () => {
             const destroyCount = TestComponentService.destroyCount;
+
             fixture.destroy();
             fixture.destroy();
 
@@ -975,10 +977,13 @@ describe('Root component with component-level service', () => {
         .fill(undefined)
         .forEach((_, index) => {
           it(`never destroys the root module #${index + 1}`, () => {
+            const destroyCount = TestAppModule.destroyCount;
+
             fixture.destroy();
             fixture.destroy();
 
-            expect(TestAppModule.destroyCount).toBe(0);
+            expect(TestAppModule.destroyCount).toBe(destroyCount);
+            expect(TestAppModule.destroyCount).toBeLessThanOrEqual(n);
           });
         });
 
@@ -986,10 +991,13 @@ describe('Root component with component-level service', () => {
         .fill(undefined)
         .forEach((_, index) => {
           it(`never destroys a root-level service #${index + 1}`, () => {
+            const destroyCount = TestRootService.destroyCount;
+
             fixture.destroy();
             fixture.destroy();
 
-            expect(TestRootService.destroyCount).toBe(0);
+            expect(TestRootService.destroyCount).toBe(destroyCount);
+            expect(TestRootService.destroyCount).toBeLessThanOrEqual(n);
           });
         });
     });
