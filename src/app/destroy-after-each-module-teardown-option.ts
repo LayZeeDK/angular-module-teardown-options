@@ -163,7 +163,7 @@ function createDecoratedClasses() {
   };
 }
 
-describe('Root component with component-level service', () => {
+describe('destroyAfterEach module teardown option', () => {
   describe('When module teardown is disabled (default)', () => {
     const destroyAfterEach = false;
 
